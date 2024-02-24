@@ -19,16 +19,16 @@ export default async function handler(req, res) {
                         "message": "Utilizador Criado com Sucesso!",
                         "_id": id
                     });
-                } return res.status(404).json({
+                } return res.status(400).json({
                     message: "Os dados introduzidos não são válidos.",
                     error: "As passwords não coincidem."
                 });
             }
-            return res.status(404).json({
+            return res.status(400).json({
                 message: "Os dados introduzidos não são válidos.",
                 error: "O endereço introduzido já está registado."
             });
-        } return res.status(404).json({
+        } return res.status(400).json({
             message: "Os dados introduzidos não são válidos.",
             errors: {
                 "email": "O endereço introduzido já está registado.",

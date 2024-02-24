@@ -16,14 +16,27 @@
 })
  */
 
+
+//GET /api/user
+// Neste endpoint deverás verificar o header: Authorization e verificar se existe alguma sessão com o token recebido nesse header.
+//Se o token não for recebido, deverás responder com o estado 401 e com o conteúdo:
+//{ "message": "Não foi enviado o token de autenticação!" }
+//Se não existir uma sessão com o token recebido, deverás responder com o estado 403 e com o conteúdo:
+//{ "message": "Não existe nenhuma sessão com o token indicado!" 
+//Caso contrário, deverás enviar uma resposta com o estado 200 e com um objeto com 4 propriedades:
+// _id - o id do utilizador;
+// email - o email do utilizador;
+
+
+
 export default async function handler(req, res) {
     try {
         const token = req.header("Authorization")
-        const user = tokens.find(t => t.token === token)?.email
         if (!token) {
-            return res.status(403).json({ message: "A password introduzida é inválida!" });
+            return res.status(403).json({ message: "Não foi enviado o token de autenticação!" })
         }
-        
+        const user = tokens.find(t => t.token === token)?.email
+
     } catch (err) {
         console.log(err);
     }
