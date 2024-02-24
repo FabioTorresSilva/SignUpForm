@@ -1,43 +1,23 @@
-/* Neste endpoint deverás verificar o header: Authorization e verificar se existe alguma sessão com o token recebido nesse header. */
-/* GET /api/user */
-/* app.get('/check', (req, res) => {
-    // Ler o token que vem do header "authorization" (vem no pedido, feito pelo frontend)
-    const token = req.header("authorization")
-
-    // Procurar uma sessão que tenha este token e ler o user
-    const user = tokens.find(t => t.token === token)?.user;
-
-    //Se o user não existe (token inválido)
-    if (!user) {
-        //A resposta é "Forbidden"
-        return res.sendStatus(403)
-    }
-    res.json({ user });
-})
- */
-
-
-//GET /api/user
-// Neste endpoint deverás verificar o header: Authorization e verificar se existe alguma sessão com o token recebido nesse header.
-//Se o token não for recebido, deverás responder com o estado 401 e com o conteúdo:
-//{ "message": "Não foi enviado o token de autenticação!" }
-//Se não existir uma sessão com o token recebido, deverás responder com o estado 403 e com o conteúdo:
-//{ "message": "Não existe nenhuma sessão com o token indicado!" 
-//Caso contrário, deverás enviar uma resposta com o estado 200 e com um objeto com 4 propriedades:
-// _id - o id do utilizador;
-// email - o email do utilizador;
-
-
+import { findAccount } from "@/pages/data/signup";
+import { findToken } from "@/pages/services/tokens";
 
 export default async function handler(req, res) {
     try {
-        const token = req.header("Authorization")
+        const token = req.headers.authorization
+      
         if (!token) {
             return res.status(403).json({ message: "Não foi enviado o token de autenticação!" })
         }
-        const user = tokens.find(t => t.token === token)?.email
-
+        const email = await findToken(token)
+      
+        if (!email) {
+            return res.status(403).json({ "message": "Não existe nenhuma sessão com o token indicado!" })
+        }
+        const account = await findAccount(email)
+        const _id = account._id.toString()
+        return res.status(200).json({ _id , email })
     } catch (err) {
         console.log(err);
+        return res.status(500).json({"message": "service internal error"})
     }
 }

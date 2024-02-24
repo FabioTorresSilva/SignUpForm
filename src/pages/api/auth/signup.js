@@ -1,6 +1,5 @@
 import { checkEmail, checkPassword, createUser, getId } from "@/pages/services/signup";
 
-
 /* POST /api/auth/signup */
 export default async function handler(req, res) {
     try {
@@ -9,8 +8,6 @@ export default async function handler(req, res) {
         if (req.method === "POST") {
             const checkEmail1 = await checkEmail(email)
             if (checkEmail1 === null) {
-                console.log(checkEmail1)
-
                 if (checkPassword(password, passwordConfirmation)) {
                     await createUser(email, password)
 
@@ -36,6 +33,6 @@ export default async function handler(req, res) {
             }
         })
     } catch (err) {
-        console.log(err);
+        console.log(err)
     }
 }

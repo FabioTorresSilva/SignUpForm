@@ -1,18 +1,20 @@
 const { findAccount, insertUserDataBase } = require("../data/signup")
 
 async function checkEmail(email) {
-   return await findAccount(email)
+   const account = await findAccount(email)
+   if(account){
+      return account
+   }
+   throw new Error( "O utilizador não foi encontrado!" )
+   
 }
 
 function checkPassword(password, passwordConfirmation) {
-
-   console.log(password,passwordConfirmation)
       return password === passwordConfirmation
 }
 
 async function getId(email){
    const res = await findAccount(email)
-   console.log(res._id.toString())
    return res._id.toString()
 }
 

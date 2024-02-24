@@ -5,8 +5,7 @@ const collectionName = "signupform"
 async function findAccount(email) {
     const collection = await getMongoCollection(collectionName);
     const result = await collection.findOne({ email: { $eq: email } })
-    console.log(result)
-    
+   
     return result
 }
 

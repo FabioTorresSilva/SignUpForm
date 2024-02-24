@@ -1,9 +1,10 @@
-const { findEmail } = require("../data/signup")
+const { findAccount } = require("../data/signup")
 
 
-function checkEmailPassword(email, password) {
-    const userPassword = findEmail(email).password
+async function  checkEmailPassword(account, password) {
+    const userPassword = account.password
     return userPassword === password
 }
+
 
 module.exports = { checkEmailPassword }
